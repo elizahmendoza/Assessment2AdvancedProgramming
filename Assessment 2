@@ -124,8 +124,12 @@ class RecipeAppGUI:
         self.category_listbox.bind("<<ListboxSelect>>", self.show_category_description)
 
     def load_and_resize_image_from_url(self, url, size):
-        # Load image from URL, resize it, and convert it to PhotoImage
-        response = request.urlopen(url)
+        # Include your API key as a query parameter if required
+        api_key = '1'
+        url_with_key = f"{url}?api_key={api_key}"
+
+        # Load image from the modified URL, resize it, and convert it to PhotoImage
+        response = request.urlopen(url_with_key)
         img_data = response.read()
         image = Image.open(BytesIO(img_data))
         image = image.resize(size, Image.Resampling.NEAREST)
@@ -146,12 +150,10 @@ class RecipeAppGUI:
             self.description_label.config(text=description)
             self.image_label.config(image=image)
             self.image_label.image = image  # Keep a reference to avoid garbage collection
-
+            
 # Create and run the Tkinter GUI
 root = tk.Tk()
 app_gui = RecipeAppGUI(root)
-
 # Set the window width
-root.geometry("900x500")
-
+root.geometry("1000x500")
 root.mainloop()
